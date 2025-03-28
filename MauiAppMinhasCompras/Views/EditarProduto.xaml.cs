@@ -4,7 +4,8 @@ namespace MauiAppMinhasCompras.Views;
 
 public partial class EditarProduto : ContentPage
 {
-	public EditarProduto()
+    string Categoria;  // Variável para armazenar a opção selecionada
+    public EditarProduto()
 	{
 		InitializeComponent();
 	}
@@ -20,7 +21,8 @@ public partial class EditarProduto : ContentPage
                 Id = produto_anexado.Id,
                 Descricao = txt_descricao.Text,
                 Quantidade = Convert.ToDouble(txt_quantidade.Text),
-                Preco = Convert.ToDouble(txt_preco.Text)
+                Preco = Convert.ToDouble(txt_preco.Text),
+                Categoria = categoriaPicker.SelectedItem.ToString()   // Salva a opção selecionada na variável
             };
 
             await App.Db.Update(p);

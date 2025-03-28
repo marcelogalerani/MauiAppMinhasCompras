@@ -89,8 +89,10 @@ public partial class ListaProduto : ContentPage
 			{
 				await App.Db.Delete(p.Id);
 				lista.Remove(p);
-			
-			}
+
+               
+
+            }
 		}
         catch (Exception ex)
         {
@@ -108,7 +110,9 @@ public partial class ListaProduto : ContentPage
             {
 				BindingContext = p,
 			});
-		}
+
+       
+        }
         catch (Exception ex)
         {
             DisplayAlert("Ops", ex.Message, "Ok");
@@ -133,5 +137,32 @@ public partial class ListaProduto : ContentPage
 			lst_produtos.IsRefreshing = false;
 		}
 
+    }
+
+    private async void categoryPicker_SelectedIndexChanged(object sender, EventArgs e)
+    {
+        try
+        {
+            string categoriaSelecionada = categoryPicker.SelectedItem as string;
+
+            lista.Clear();
+            List<Produto> tmp = await App.Db.GetAll();
+            if (!string.IsNullOrEmpty(categoriaSelecionada))
+            {
+                tmp = tmp.Where(p => p.Categoria == categoriaSelecionada).ToList();
+            }
+
+            tmp.ForEach(i => lista.Add(i));
+        }
+        catch (Exception ex)
+        {
+            await DisplayAlert("Ops", ex.Message, "Ok");
+        }
+
+    }
+
+    private async void ToolbarItem_Clicked_2(object sender, EventArgs e)
+    {
+        await Navigation.PushAsync(new RelatorioGastos());
     }
 }
